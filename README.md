@@ -15,7 +15,7 @@ El siguiente ejercicio, nos muestra como implementar JWT Token en un proyecto We
 
 "Json Web Token es un conjunto de medios de seguridad para peticiones http y así representar demandas para ser transferidos entre dos partes (cliente y servidor). Las partes de un JWT se codifican como un objeto JSON que está firmado digitalmente utilizando JSON Web Signature( JWS ).
 
-![JWT TOKEN](https://www.programacion.com.py/wp-content/uploads/2016/07/autenticacion-basada-en-token.png)
+![JWT TOKEN](https://github.com/Joac89/ApiJwtToken/blob/master/jwt.png)
 
 La mayoría de las aplicaciones actuales consumen servicios rest y están alojadas en distintos dominios con lo cuál no podemos trabajar con sesiones ya que se almacenan en este.
 
@@ -146,7 +146,7 @@ Una vez declarado el controlador, se procede a implementar la utilización de JW
 [HttpPost]
 public async Task<IActionResult> GetToken([FromBody] AuthEntity data)
 {  
-  var claims = new[]
+  	var claims = new[]
 	{
 		new Claim(JwtRegisteredClaimNames.Sub, data.UserName),
 		new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -154,12 +154,12 @@ public async Task<IActionResult> GetToken([FromBody] AuthEntity data)
 
 	var token = new JwtSecurityToken
 	(
-		 issuer: config["token:issuer"],
-		 audience: config["token:audience"],
-		 claims: claims,
-		 expires: DateTime.UtcNow.AddHours(double.Parse(config["token:expire"])),
-		 notBefore: DateTime.UtcNow,
-		 signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["token:signingkey"])),  SecurityAlgorithms.HmacSha256)
+		issuer: config["token:issuer"],
+		audience: config["token:audience"],
+		claims: claims,
+		expires: DateTime.UtcNow.AddHours(double.Parse(config["token:expire"])),
+		notBefore: DateTime.UtcNow,
+		signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["token:signingkey"])),  SecurityAlgorithms.HmacSha256)
 	);
 
 	var token = new JwtSecurityTokenHandler().WriteToken(token);
@@ -189,7 +189,7 @@ El código final del controlador quedaría de la siguiente manera:
 [HttpPost]
 public async Task<IActionResult> GetToken([FromBody] AuthEntity data)
 {
-  var result = new ResponseBase<string>();
+	var result = new ResponseBase<string>();
 	var userAuth = new ResponseBase<bool>();
 
 	//Escriba aquí la implementación para validar usuario y contraseña de acceso
@@ -203,30 +203,30 @@ public async Task<IActionResult> GetToken([FromBody] AuthEntity data)
 			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
 		};
 
-	  var token = new JwtSecurityToken
-	  (
-		  issuer: config["token:issuer"],
-		  audience: config["token:audience"],
-		  claims: claims,
-		  expires: DateTime.UtcNow.AddHours(double.Parse(config["token:expire"])),
-		  notBefore: DateTime.UtcNow,
-		  signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["token:signingkey"])),  SecurityAlgorithms.HmacSha256)
-	  );
+	  	var token = new JwtSecurityToken
+	  	(
+			issuer: config["token:issuer"],
+		  	audience: config["token:audience"],
+		  	claims: claims,
+		  	expires: DateTime.UtcNow.AddHours(double.Parse(config["token:expire"])),
+		  	notBefore: DateTime.UtcNow,
+		  	signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["token:signingkey"])),  SecurityAlgorithms.HmacSha256)
+	  	);
 
-	  result.Code = (int)HttpStatusCode.OK;
-	  result.Data = new JwtSecurityTokenHandler().WriteToken(token);
-	  result.Message = userAuth.Message;
+	  	result.Code = (int)HttpStatusCode.OK;
+	  	result.Data = new JwtSecurityTokenHandler().WriteToken(token);
+	  	result.Message = userAuth.Message;
 
-	  return Ok(result);
-  }
-  else
-  {
-		  result.Code = (int)HttpStatusCode.Unauthorized;
-		  result.Message = userAuth.Message;
-		  result.Data = "";
+	  	return Ok(result);
+  	}
+  	else
+  	{
+		result.Code = (int)HttpStatusCode.Unauthorized;
+		result.Message = userAuth.Message;
+		result.Data = "";
 
-		  return StatusCode(result.Code, result);
-  }
+		return StatusCode(result.Code, result);
+  	}
 }
 ```
 
@@ -247,7 +247,7 @@ public override void OnActionExecuting(ActionExecutingContext actionContext)
 			Data = new BadRequestObjectResult(actionContext.ModelState),
 			Message = "Invalid Model"
 		};
-	actionContext.Result = new BadRequestObjectResult(result);
+		actionContext.Result = new BadRequestObjectResult(result);
 	}
 }
 ```
@@ -272,7 +272,7 @@ namespace ApiJwtTokenExample.Controllers
 	[Produces("application/json")]
 	[Route("api/v1/[controller]")]
 	public class IndexController : Controller
-  {
+  	{
 		private IConfiguration config;
 		public IndexController(IConfiguration configuration)
 		{
@@ -284,15 +284,16 @@ namespace ApiJwtTokenExample.Controllers
 		[Route("validate")]
 		[ValidateModel]
 		public IActionResult Index()
-    {
-        var result = new ResponseBase<bool>() {
-				  Code = 200,
-				  Message = "Example API jwt Token"
-	      };
+    		{
+        		var result = new ResponseBase<bool>() {
+				Code = 200,
+				Message = "Example API jwt Token",
+				Data = true
+	      		};
 
-			  return Ok(result);
-    }
-  }
+			return Ok(result);
+    		}
+  	}
 }
 ```
 En el controlador de ejemplo, utilizamos el atributo **ValidateModel** y **Authorize** que nos permitiran validar el modelo de datos de entrada y el token válido enviado en los encabezados de la petición HTTP. En caso de que no sea válido el Token, nos devolverá un 401 indicando que no se ha autorizado al usuario para realizar la consulta solicitada.
