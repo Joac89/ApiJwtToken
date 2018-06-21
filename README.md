@@ -298,12 +298,18 @@ namespace ApiJwtTokenExample.Controllers
 En el controlador de ejemplo, utilizamos el atributo **ValidateModel** y **Authorize** que nos permitiran validar el modelo de datos de entrada y el token válido enviado en los encabezados de la petición HTTP. En caso de que no sea válido el Token, nos devolverá un 401 indicando que no se ha autorizado al usuario para realizar la consulta solicitada.
 
 ### Usando el API desde POSTMAN ###
-Solicitud de Token:
+**Solicitud de Token**
+Al solicitar el token, enviamos el objeto JSON con el usuario y la contraseña del usuario que se va a autenticar:
+![postman-token](https://github.com/Joac89/ApiJwtToken/blob/master/postman-1.png)
 
-Solicitud al controlador de ejemplo con OK:
+**Solicitud al controlador de ejemplo con OK**
+Luego de recibir el token correcto, se envia en los encabezados de la petición:
+![postman-token-header](https://github.com/Joac89/ApiJwtToken/blob/master/postman-2.png)
 
-Solicitud al controlador de ejemplo con 401 (No autorizado):
-
+**Solicitud al controlador de ejemplo con 401 (No autorizado)**
+Cuando se envía un token incorrecto, se devuelve como resultado un código **401** indicando que el token enviado no es válido (para el caso del controlador de ejemplo explicado anteriormente)
+![postman-token-401](https://github.com/Joac89/ApiJwtToken/blob/master/postman-3.png)
 
 
 ## Conclusión
+Podríamos concluir, que la implementación de JWT, es una manera sencilla y práctica para usar autenticación por token en un Web Api que vayamos a desarrollar. Sin embargo, se debería tener otros criterios de autenticación y seguridad complementarios, y profundizar un poco más en la implementación de JWT.
