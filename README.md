@@ -8,7 +8,7 @@ El siguiente ejercicio, nos muestra como implementar JWT Token en un proyecto We
 3. [Token Controller](#token-controller)
 4. [Validando el modelo](#validando-el-modelo)
 5. [Probando el API](#probando-el-api)
-6. [Conclusión](#conclusion)
+6. [Conclusión](#conclusión)
 
 ## Concepto
 (Tomado de: [¿Qué es Json Web Token (JWT)?](https://www.programacion.com.py/varios/que-es-json-web-token-jwt))
