@@ -32,7 +32,8 @@ namespace ApiJwtTokenExample.Controllers
         {
             var result = new ResponseBase<bool>() {
 				Code = 200,
-				Message = "Example API jwt Token"
+				Message = "Example API jwt Token",
+				Data = true
 			};
 
 			return Ok(result);
